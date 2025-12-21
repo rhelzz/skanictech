@@ -116,49 +116,84 @@
         
         <!-- Images -->
         <div class="bg-white rounded-xl shadow-md p-6">
-            <h2 class="text-lg font-semibold text-slate-800 mb-4">Galeri Gambar Produk</h2>
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">Gambar Produk</h2>
             
-            <div class="space-y-4">
-                @if(is_array($product->gallery_images) && count($product->gallery_images) > 0)
+            @php
+                $galleryImages = $product->gallery_images_array;
+                $hasGallery = !empty($galleryImages);
+            @endphp
+            
+            <div class="space-y-6">
+                <!-- Main/Thumbnail Image -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">Galeri Saat Ini</label>
-                    <div class="flex flex-wrap gap-2">
-                        @foreach($product->gallery_urls as $index => $image)
-                        <div class="relative group">
-                            <img src="{{ $image }}" alt="" class="w-24 h-24 object-cover rounded-lg border-2 {{ $index === 0 ? 'border-blue-500' : 'border-slate-200' }}">
-                            @if($index === 0)
-                            <span class="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-2 py-0.5 rounded">Utama</span>
-                            @endif
-                            <label class="absolute top-1 right-1 bg-red-500 text-white rounded p-1 cursor-pointer hover:bg-red-600">
-                                <input type="checkbox" name="remove_gallery_images[]" value="{{ $index }}" class="sr-only">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </label>
-                        </div>
-                        @endforeach
-                    </div>
-                    <p class="text-xs text-slate-500 mt-1">Centang untuk menghapus gambar. Gambar pertama adalah gambar utama produk.</p>
-                </div>
-                @endif
-                
-                <div>
-                    <label for="gallery_images" class="block text-sm font-medium text-slate-700 mb-1.5">
-                        {{ is_array($product->gallery_images) && count($product->gallery_images) > 0 ? 'Tambah Gambar Baru' : 'Upload Gambar Produk' }}
-                        @if(!is_array($product->gallery_images) || count($product->gallery_images) === 0)
-                        <span class="text-red-500">*</span>
-                        @endif
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Gambar Utama / Thumbnail <span class="text-red-500">*</span>
                     </label>
-                    <input 
-                        type="file" 
-                        id="gallery_images" 
-                        name="gallery_images[]"
-                        accept="image/jpeg,image/png,image/gif,image/webp"
-                        multiple
-                        {{ (!is_array($product->gallery_images) || count($product->gallery_images) === 0) ? 'required' : '' }}
-                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700"
-                    >
-                    <p class="text-xs text-slate-500 mt-1">JPG, PNG, GIF, WebP (Maks. 2MB per file). Urutan upload akan menjadi urutan tampilan.</p>
+                    
+                    @if($product->main_image)
+                    <div class="mb-3">
+                        <label class="block text-xs font-medium text-slate-600 mb-1">Gambar Utama Saat Ini:</label>
+                        <div class="relative inline-block">
+                            <img src="{{ $product->main_image_url }}" alt="" class="w-48 h-36 object-cover rounded-lg border-4 border-blue-500 shadow-md">
+                            <span class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-3 py-1 rounded-full font-medium">⭐ Gambar Utama</span>
+                        </div>
+                    </div>
+                    @endif
+                    
+                    <div class="border-2 border-dashed border-blue-300 rounded-xl p-4 text-center hover:border-blue-500 hover:bg-blue-50/50 transition-all">
+                        <input 
+                            type="file" 
+                            id="main_image" 
+                            name="main_image"
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
+                            class="w-full px-4 py-2.5 border border-slate-300 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700"
+                        >
+                        <p class="text-xs text-slate-500 mt-2">
+                            {{ $product->main_image ? 'Upload untuk mengganti gambar utama' : 'Upload gambar utama (JPG, PNG, GIF, WebP - Maks. 2MB)' }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Gallery Images (Additional) -->
+                <div class="pt-4 border-t border-slate-200">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Galeri Gambar Tambahan <span class="text-slate-400 text-xs">(Opsional)</span>
+                    </label>
+                    
+                    @if($hasGallery)
+                    <div class="mb-3">
+                        <label class="block text-xs font-medium text-slate-600 mb-1">Galeri Saat Ini:</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            @foreach($product->gallery_urls as $index => $image)
+                            <div class="relative group">
+                                <img src="{{ $image }}" alt="" class="w-full h-24 object-cover rounded-lg border-2 border-purple-300 shadow-sm">
+                                <span class="absolute top-1 left-1 bg-purple-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">{{ $index + 1 }}</span>
+                                <label class="absolute top-1 right-1 bg-red-500 text-white rounded p-1 cursor-pointer hover:bg-red-600 transition-all">
+                                    <input type="checkbox" name="remove_gallery_images[]" value="{{ $index }}" class="sr-only">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Klik ✕ merah untuk menghapus gambar dari galeri</p>
+                    </div>
+                    @endif
+                    
+                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-4 hover:border-purple-500 hover:bg-purple-50/50 transition-all">
+                        <input 
+                            type="file" 
+                            id="gallery_images" 
+                            name="gallery_images[]"
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            multiple
+                            class="w-full px-4 py-2.5 border border-slate-300 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-50 file:text-purple-700"
+                        >
+                        <p class="text-xs text-slate-500 mt-2">
+                            {{ $hasGallery ? 'Upload untuk menambah gambar ke galeri' : 'Upload gambar tambahan untuk galeri' }} (JPG, PNG, GIF, WebP - Maks. 2MB per file)
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

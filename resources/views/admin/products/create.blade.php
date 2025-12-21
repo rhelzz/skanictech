@@ -218,30 +218,76 @@
             </div>
             
             <div class="p-6 space-y-6">
-                <!-- Gallery Images - Multiple Upload -->
+                <!-- Main/Thumbnail Image - Single Upload -->
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-2">
-                        Galeri Gambar Produk <span class="text-red-500">*</span>
+                        Gambar Utama / Thumbnail <span class="text-red-500">*</span>
+                    </label>
+                    <div class="border-2 border-dashed border-blue-300 rounded-xl p-6 text-center hover:border-blue-500 hover:bg-blue-50/50 transition-all cursor-pointer" onclick="document.getElementById('main_image').click()">
+                        <input 
+                            type="file" 
+                            id="main_image" 
+                            name="main_image"
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
+                            required
+                            class="hidden"
+                            onchange="previewMainImage(this)"
+                        >
+                        <div id="main-preview" class="hidden mb-4 flex justify-center"></div>
+                        <div id="main-placeholder">
+                            <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <p class="text-slate-600 font-medium">Klik untuk upload gambar utama</p>
+                            <p class="text-sm text-slate-500 mt-1">Gambar ini akan menjadi thumbnail produk</p>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex items-center gap-4 text-xs text-slate-500">
+                        <span>✓ JPG, PNG, GIF, WebP</span>
+                        <span>✓ Maksimal 2MB</span>
+                        <span>✓ Rekomendasi: 800x600px atau 4:3</span>
+                    </div>
+                    <p class="mt-2 text-xs text-blue-600 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Gambar ini akan ditampilkan di card produk dan hasil pencarian
+                    </p>
+                    @error('main_image')
+                    <p class="mt-1 text-sm text-red-500 flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        {{ $message }}
+                    </p>
+                    @enderror
+                </div>
+
+                <!-- Gallery Images - Multiple Upload -->
+                <div class="pt-4 border-t border-slate-200">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Galeri Gambar Tambahan <span class="text-slate-400 text-xs">(Opsional)</span>
                     </label>
                     <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-purple-500 hover:bg-purple-50/50 transition-all cursor-pointer" onclick="document.getElementById('gallery_images').click()">
                         <input 
                             type="file" 
                             id="gallery_images" 
                             name="gallery_images[]"
-                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
                             multiple
-                            required
                             class="hidden"
                             onchange="previewGallery(this)"
                         >
-                        <div id="gallery-preview" class="hidden mb-4 flex flex-wrap gap-3 justify-center"></div>
+                        <div id="gallery-preview" class="hidden mb-4 grid grid-cols-2 md:grid-cols-4 gap-3"></div>
                         <div id="gallery-placeholder">
                             <div class="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3">
                                 <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                             </div>
-                            <p class="text-slate-600 font-medium">Klik untuk upload gambar produk</p>
+                            <p class="text-slate-600 font-medium">Klik untuk upload gambar tambahan</p>
                             <p class="text-sm text-slate-500 mt-1">Pilih beberapa gambar sekaligus (maks. 10 gambar)</p>
                         </div>
                     </div>
@@ -249,9 +295,11 @@
                         <span>✓ JPG, PNG, GIF, WebP</span>
                         <span>✓ Maksimal 2MB per file</span>
                         <span>✓ Rekomendasi: 800x600px</span>
-                        <span>✓ Gambar pertama = gambar utama</span>
                     </div>
-                    <p class="mt-2 text-xs text-slate-500">💡 Tips: Upload screenshot yang menunjukkan fitur-fitur utama produk. Gambar pertama akan menjadi gambar utama produk.</p>
+                    <p class="mt-2 text-xs text-slate-500">💡 Tips: Upload screenshot yang menunjukkan berbagai fitur dan tampilan produk dari berbagai sudut pandang.</p>
+                    @error('gallery_images')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -552,6 +600,37 @@ function updateFeatureNumbers() {
     featureCount = items.length;
 }
 
+// Image preview for main/thumbnail image
+function previewMainImage(input) {
+    const preview = document.getElementById('main-preview');
+    const placeholder = document.getElementById('main-placeholder');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = '';
+            preview.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'relative inline-block';
+            
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'w-48 h-36 object-cover rounded-lg shadow-lg border-4 border-blue-500';
+            
+            const badge = document.createElement('span');
+            badge.className = 'absolute top-2 left-2 bg-blue-500 text-white text-xs px-3 py-1 rounded-full font-medium shadow-md';
+            badge.innerHTML = '⭐ Gambar Utama';
+            
+            wrapper.appendChild(img);
+            wrapper.appendChild(badge);
+            preview.appendChild(wrapper);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 // Image preview for gallery
 function previewGallery(input) {
     const preview = document.getElementById('gallery-preview');
@@ -570,16 +649,14 @@ function previewGallery(input) {
                 
                 const img = document.createElement('img');
                 img.src = e.target.result;
-                img.className = 'w-24 h-24 object-cover rounded-lg shadow-md border-2 ' + (index === 0 ? 'border-blue-500' : 'border-slate-200');
+                img.className = 'w-full h-24 object-cover rounded-lg shadow-md border-2 border-slate-200 hover:border-purple-400 transition-all';
                 
-                if (index === 0) {
-                    const badge = document.createElement('span');
-                    badge.className = 'absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-2 py-0.5 rounded';
-                    badge.textContent = 'Utama';
-                    wrapper.appendChild(badge);
-                }
+                const numberBadge = document.createElement('span');
+                numberBadge.className = 'absolute top-1 left-1 bg-purple-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold';
+                numberBadge.textContent = index + 1;
                 
                 wrapper.appendChild(img);
+                wrapper.appendChild(numberBadge);
                 preview.appendChild(wrapper);
             };
             reader.readAsDataURL(file);
@@ -587,10 +664,13 @@ function previewGallery(input) {
         
         if (input.files.length > 10) {
             const msg = document.createElement('p');
-            msg.className = 'text-xs text-red-500 w-full';
-            msg.textContent = `Maksimal 10 gambar. ${input.files.length - 10} gambar tidak akan diupload.`;
+            msg.className = 'text-xs text-red-500 col-span-full text-center mt-2';
+            msg.textContent = `⚠️ Maksimal 10 gambar. ${input.files.length - 10} gambar tidak akan diupload.`;
             preview.appendChild(msg);
         }
+    } else {
+        preview.classList.add('hidden');
+        placeholder.classList.remove('hidden');
     }
 }
 

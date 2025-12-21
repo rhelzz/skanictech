@@ -11,7 +11,7 @@ class SettingSeeder extends Seeder
     {
         $settings = [
             // Site Info
-            ['key' => 'site_name', 'value' => 'Skanic Tech', 'group' => 'general'],
+            ['key' => 'site_name', 'value' => 'Skanic', 'group' => 'general'],
             ['key' => 'site_tagline', 'value' => 'E-Katalog Produk Digital Terpercaya', 'group' => 'general'],
             ['key' => 'site_description', 'value' => 'Platform e-katalog untuk menemukan berbagai produk digital berkualitas - aplikasi web, SaaS, sistem enterprise, dan solusi digital lainnya untuk mengembangkan bisnis Anda.', 'group' => 'general'],
             ['key' => 'site_logo', 'value' => null, 'group' => 'general'],

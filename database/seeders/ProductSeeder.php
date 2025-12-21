@@ -41,8 +41,7 @@ class ProductSeeder extends Seeder
 <h3>💻 Tech Stack</h3>
 <p>Laravel 11, Vue.js 3, Tailwind CSS, MySQL, Redis</p>
 </div>',
-                'gallery_images' => json_encode(['products/posmart-1.jpg', 'products/posmart-2.jpg', 'products/posmart-3.jpg']),
-                'features' => json_encode([
+                'features' => [
                     'Multi Outlet & Cabang Management',
                     'Inventory Management dengan Stock Opname',
                     'Laporan Penjualan Real-time',
@@ -53,7 +52,7 @@ class ProductSeeder extends Seeder
                     'Export Excel & PDF',
                     'Role & Permission Management',
                     'Cloud Backup Otomatis'
-                ]),
+                ],
                 'price' => 2500000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.posmart.id',
@@ -61,7 +60,8 @@ class ProductSeeder extends Seeder
                 'demo_password' => 'demo123',
                 'owner_name' => 'Budi Santoso',
                 'owner_whatsapp' => '6289876543210',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'main_image' => 'https://via.placeholder.com/800x600/1e40af/ffffff?text=POSmart+Pro',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => true,
                 'status' => 'published',
                 'views_count' => 1250,
@@ -91,7 +91,7 @@ class ProductSeeder extends Seeder
 <h3>📱 Integrasi Delivery</h3>
 <p>Terintegrasi dengan GoFood, GrabFood, dan ShopeeFood untuk menerima order delivery langsung ke sistem.</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Kitchen Display System (KDS)',
                     'Table Management Visual',
                     'Split Bill & Merge Bill',
@@ -102,7 +102,7 @@ class ProductSeeder extends Seeder
                     'Ingredient Tracking',
                     'Multi-printer Support',
                     'Dashboard Analytics'
-                ]),
+                ],
                 'price' => 3500000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.restopos.id',
@@ -110,7 +110,8 @@ class ProductSeeder extends Seeder
                 'demo_password' => 'demo123',
                 'owner_name' => 'Budi Santoso',
                 'owner_whatsapp' => '6289876543210',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'main_image' => 'https://via.placeholder.com/800x600/2563eb/ffffff?text=RestoPOS',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => true,
                 'status' => 'published',
                 'views_count' => 980,
@@ -144,7 +145,7 @@ class ProductSeeder extends Seeder
 <h3>🚚 Shipping Integration</h3>
 <p>API RajaOngkir untuk cek ongkir realtime dari JNE, J&T, SiCepat, dan kurir lainnya.</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Multi Vendor Marketplace',
                     'Product Variants & Attributes',
                     'Payment Gateway (Midtrans, Xendit)',
@@ -155,7 +156,7 @@ class ProductSeeder extends Seeder
                     'Chat System Built-in',
                     'Mobile Responsive',
                     'SEO Optimized'
-                ]),
+                ],
                 'price' => 7500000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.tokoku.id',
@@ -163,7 +164,8 @@ class ProductSeeder extends Seeder
                 'demo_password' => 'demo123',
                 'owner_name' => 'Dewi Anggraini',
                 'owner_whatsapp' => '6281122334455',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'main_image' => 'https://via.placeholder.com/800x600/3b82f6/ffffff?text=TokoKu',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => true,
                 'status' => 'published',
                 'views_count' => 2100,
@@ -195,7 +197,7 @@ class ProductSeeder extends Seeder
 <h3>📱 Employee Self Service</h3>
 <p>Portal karyawan untuk melihat slip gaji, mengajukan cuti, dan update data pribadi.</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Employee Database Management',
                     'Attendance GPS & Face Recognition',
                     'Leave & Permission Management',
@@ -206,15 +208,14 @@ class ProductSeeder extends Seeder
                     'Organization Chart',
                     'Training Management',
                     'Exit Interview & Offboarding'
-                ]),
+                ],
                 'price' => 5000000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.hrmax.id',
                 'demo_username' => 'hr@demo.com',
                 'demo_password' => 'demo123',
                 'owner_name' => 'Ahmad Rizki',
-                'owner_whatsapp' => '6285566778899',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'owner_whatsapp' => '6285566778899',                'main_image' => 'https://via.placeholder.com/800x600/6366f1/ffffff?text=LMS',                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => true,
                 'status' => 'published',
                 'views_count' => 1450,
@@ -245,7 +246,7 @@ class ProductSeeder extends Seeder
 <h3>🔧 Mudah Dikustomisasi</h3>
 <p>CMS yang user-friendly memungkinkan Anda mengupdate konten tanpa perlu coding.</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Modern & Responsive Design',
                     'Easy-to-use CMS',
                     'Multi-language Support',
@@ -256,7 +257,7 @@ class ProductSeeder extends Seeder
                     'Contact Form with Email',
                     'Google Maps Integration',
                     'SEO Optimized'
-                ]),
+                ],
                 'price' => 1500000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.bizpro.id',
@@ -264,7 +265,8 @@ class ProductSeeder extends Seeder
                 'demo_password' => 'demo123',
                 'owner_name' => 'Dewi Anggraini',
                 'owner_whatsapp' => '6281122334455',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'main_image' => 'https://via.placeholder.com/800x600/06b6d4/ffffff?text=MarketKita',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => false,
                 'status' => 'published',
                 'views_count' => 890,
@@ -295,7 +297,7 @@ class ProductSeeder extends Seeder
 <h3>🏦 Integrasi Bank</h3>
 <p>Rekonsiliasi otomatis dengan mutasi bank BCA, Mandiri, BNI, dan BRI.</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Jurnal Umum & Penyesuaian',
                     'Buku Besar & Subsidiary',
                     'Neraca & Laba Rugi',
@@ -306,7 +308,7 @@ class ProductSeeder extends Seeder
                     'Budget & Forecasting',
                     'Audit Trail',
                     'Export ke Excel & PDF'
-                ]),
+                ],
                 'price' => 3000000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.akunpro.id',
@@ -314,7 +316,8 @@ class ProductSeeder extends Seeder
                 'demo_password' => 'demo123',
                 'owner_name' => 'Ahmad Rizki',
                 'owner_whatsapp' => '6285566778899',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'main_image' => 'https://via.placeholder.com/800x600/ef4444/ffffff?text=Accounting',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => false,
                 'status' => 'published',
                 'views_count' => 720,
@@ -345,7 +348,7 @@ class ProductSeeder extends Seeder
 <h3>📱 Mobile App</h3>
 <p>Tersedia aplikasi mobile untuk siswa dan orang tua (Android & iOS).</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Manajemen Kurikulum & Silabus',
                     'E-Learning & Assignment',
                     'Penjadwalan Otomatis',
@@ -356,15 +359,15 @@ class ProductSeeder extends Seeder
                     'Attendance QR Code',
                     'Announcement & News',
                     'Mobile App (Android/iOS)'
-                ]),
+                ],
                 'price' => 4500000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.eduschool.id',
                 'demo_username' => 'admin@demo.com',
                 'demo_password' => 'demo123',
                 'owner_name' => 'Budi Santoso',
-                'owner_whatsapp' => '6289876543210',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'owner_whatsapp' => '6289876543210',                'main_image' => 'https://via.placeholder.com/800x600/14b8a6/ffffff?text=Laundry',                'main_image' => 'https://via.placeholder.com/800x600/10b981/ffffff?text=School',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => true,
                 'status' => 'published',
                 'views_count' => 1100,
@@ -395,7 +398,7 @@ class ProductSeeder extends Seeder
 <h3>📊 Analytics</h3>
 <p>Dashboard analitik untuk mengukur performa tim dan mengidentifikasi peluang.</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Lead Capture & Scoring',
                     'Contact Management',
                     'Deal Pipeline Kanban',
@@ -406,7 +409,7 @@ class ProductSeeder extends Seeder
                     'Sales Forecast',
                     'Team Performance',
                     'API Integration'
-                ]),
+                ],
                 'price' => 150000,
                 'price_type' => 'monthly',
                 'demo_url' => 'https://demo.salespro.id',
@@ -414,7 +417,8 @@ class ProductSeeder extends Seeder
                 'demo_password' => 'demo123',
                 'owner_name' => 'Dewi Anggraini',
                 'owner_whatsapp' => '6281122334455',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'main_image' => 'https://via.placeholder.com/800x600/ec4899/ffffff?text=EventKu',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => false,
                 'status' => 'published',
                 'views_count' => 650,
@@ -445,7 +449,7 @@ class ProductSeeder extends Seeder
 <h3>⚡ Tech Stack Modern</h3>
 <p>Laravel 11, Livewire 3, Tailwind CSS, Alpine.js</p>
 </div>',
-                'features' => json_encode([
+                'features' => [
                     'Multi-tenant Architecture',
                     'Subscription Billing',
                     'Stripe & Midtrans Integration',
@@ -456,7 +460,7 @@ class ProductSeeder extends Seeder
                     'Admin Dashboard',
                     'Email Notifications',
                     'Comprehensive Documentation'
-                ]),
+                ],
                 'price' => 2000000,
                 'price_type' => 'one_time',
                 'demo_url' => 'https://demo.launchkit.dev',
@@ -464,7 +468,7 @@ class ProductSeeder extends Seeder
                 'demo_password' => 'demo123',
                 'owner_name' => 'Ahmad Rizki',
                 'owner_whatsapp' => '6285566778899',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => true,
                 'status' => 'published',
                 'views_count' => 1800,
@@ -481,12 +485,12 @@ class ProductSeeder extends Seeder
                 'slug' => 'laundrypos-coming-soon',
                 'short_description' => 'Sistem kasir khusus untuk usaha laundry dengan tracking order, notifikasi WhatsApp, dan laporan harian.',
                 'description' => '<p>Akan segera hadir sistem kasir lengkap untuk usaha laundry kiloan dan satuan.</p>',
-                'features' => json_encode([
+                'features' => [
                     'Order Tracking',
                     'WhatsApp Notification',
                     'Pricing per KG/Item',
                     'Daily Report'
-                ]),
+                ],
                 'price' => 1500000,
                 'price_type' => 'one_time',
                 'demo_url' => null,
@@ -494,7 +498,8 @@ class ProductSeeder extends Seeder
                 'demo_password' => null,
                 'owner_name' => 'Budi Santoso',
                 'owner_whatsapp' => '6289876543210',
-                'gallery_images' => json_encode(['https://via.placeholder.com/800x600']),
+                'main_image' => 'https://via.placeholder.com/800x600/14b8a6/ffffff?text=Laundry',
+                'gallery_images' => ['https://via.placeholder.com/800x600'],
                 'is_featured' => false,
                 'status' => 'draft',
                 'views_count' => 0,

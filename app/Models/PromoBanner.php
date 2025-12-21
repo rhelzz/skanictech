@@ -36,14 +36,6 @@ class PromoBanner extends Model
     }
 
     /**
-     * Get image URL
-     */
-    public function getImageUrlAttribute(): string
-    {
-        return $this->image ? asset('storage/' . $this->image) : '';
-    }
-
-    /**
      * Check if banner is currently active (within date range)
      */
     public function isCurrentlyActive(): bool

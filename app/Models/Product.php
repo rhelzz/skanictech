@@ -21,6 +21,7 @@ class Product extends Model
         'description',
         'price',
         'price_type',
+        'main_image',
         'gallery_images',
         'features',
         'demo_url',
@@ -91,13 +92,59 @@ class Product extends Model
     }
 
     /**
-     * Get main image URL (first image from gallery)
+     * Get gallery images array (handles double-encoded JSON)
+     */
+    public function getGalleryImagesArrayAttribute(): array
+    {
+        $images = $this->attributes['gallery_images'] ?? null;
+        
+        if (!$images) {
+            return [];
+        }
+        
+        // If it's already an array, return it
+        if (is_array($images)) {
+            return $images;
+        }
+        
+        // Try to decode JSON
+        $decoded = json_decode($images, true);
+        
+        // If still a string (double-encoded), decode again
+        if (is_string($decoded)) {
+            $decoded = json_decode($decoded, true);
+        }
+        
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    /**
+     * Get main image URL (uses dedicated main_image field or falls back to first gallery image)
      */
     public function getMainImageUrlAttribute(): string
     {
-        if (is_array($this->gallery_images) && count($this->gallery_images) > 0) {
-            return asset('storage/' . $this->gallery_images[0]);
+        // Check if main_image exists
+        if (!empty($this->main_image)) {
+            // Check if it's a URL or a path
+            if (str_starts_with($this->main_image, 'http')) {
+                return $this->main_image;
+            }
+            return asset('storage/' . $this->main_image);
         }
+
+        // Fallback to first gallery image
+        $images = $this->gallery_images_array;
+        
+        if (count($images) > 0) {
+            $firstImage = $images[0];
+            // Check if it's a URL or a path
+            if (str_starts_with($firstImage, 'http')) {
+                return $firstImage;
+            }
+            return asset('storage/' . $firstImage);
+        }
+
+        // Final fallback to placeholder
         return 'https://placehold.co/600x400/1e40af/ffffff?text=' . urlencode($this->name ?? 'Product');
     }
 
@@ -106,7 +153,9 @@ class Product extends Model
      */
     public function getGalleryUrlsAttribute(): array
     {
-        if (!$this->gallery_images || !is_array($this->gallery_images)) {
+        $images = $this->gallery_images_array;
+        
+        if (empty($images)) {
             // Return 5 placeholder images if no gallery images uploaded
             $productName = urlencode($this->name ?? 'Product');
             return [
@@ -119,8 +168,12 @@ class Product extends Model
         }
         
         return array_map(function ($image) {
+            // Check if it's already a URL
+            if (str_starts_with($image, 'http')) {
+                return $image;
+            }
             return asset('storage/' . $image);
-        }, $this->gallery_images);
+        }, $images);
     }
 
     /**

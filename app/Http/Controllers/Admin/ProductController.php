@@ -69,8 +69,9 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'price_type' => 'required|in:monthly,yearly,one_time',
-            'gallery_images' => 'required|array|min:1',
-            'gallery_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'main_image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'gallery_images' => 'nullable|array',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'features' => 'nullable|array',
             'features.*' => 'nullable|string',
             'demo_url' => 'nullable|url',
@@ -84,12 +85,19 @@ class ProductController extends Controller
             'is_featured' => 'nullable|boolean',
         ]);
 
-        // Handle gallery images upload (required)
-        $galleryImages = [];
-        foreach ($request->file('gallery_images') as $image) {
-            $galleryImages[] = $image->store('products/gallery', 'public');
+        // Handle main/thumbnail image upload (required)
+        if ($request->hasFile('main_image')) {
+            $validated['main_image'] = $request->file('main_image')->store('products/main', 'public');
         }
-        $validated['gallery_images'] = $galleryImages;
+
+        // Handle gallery images upload (optional)
+        if ($request->hasFile('gallery_images')) {
+            $galleryImages = [];
+            foreach ($request->file('gallery_images') as $image) {
+                $galleryImages[] = $image->store('products/gallery', 'public');
+            }
+            $validated['gallery_images'] = $galleryImages;
+        }
 
         // Filter empty features
         if (isset($validated['features'])) {
@@ -141,6 +149,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'price_type' => 'required|in:monthly,yearly,one_time',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'features' => 'nullable|array',
             'features.*' => 'nullable|string',
@@ -155,13 +164,25 @@ class ProductController extends Controller
             'is_featured' => 'nullable|boolean',
         ]);
 
+        // Handle main image upload and replacement
+        if ($request->hasFile('main_image')) {
+            // Delete old main image if exists
+            if ($product->main_image && !str_starts_with($product->main_image, 'http')) {
+                Storage::disk('public')->delete($product->main_image);
+            }
+            $validated['main_image'] = $request->file('main_image')->store('products/main', 'public');
+        }
+
         // Handle gallery image removal first
-        $currentGallery = is_array($product->gallery_images) ? $product->gallery_images : [];
+        $currentGallery = $product->gallery_images_array;
         if ($request->has('remove_gallery_images')) {
             $toRemove = $request->remove_gallery_images;
             foreach ($toRemove as $index) {
                 if (isset($currentGallery[$index])) {
-                    Storage::disk('public')->delete($currentGallery[$index]);
+                    // Only delete if it's a local path (not a URL)
+                    if (!str_starts_with($currentGallery[$index], 'http')) {
+                        Storage::disk('public')->delete($currentGallery[$index]);
+                    }
                     unset($currentGallery[$index]);
                 }
             }
@@ -175,15 +196,12 @@ class ProductController extends Controller
             }
         }
         
-        // Update gallery images (ensure at least one exists)
-        if (count($currentGallery) > 0) {
+        // Update gallery images
+        if (count($currentGallery) > 0 || $request->has('remove_gallery_images') || $request->hasFile('gallery_images')) {
             $validated['gallery_images'] = $currentGallery;
         } else {
-            // If all images were removed and no new uploaded, keep the old ones
-            if (!$request->has('remove_gallery_images') && !$request->hasFile('gallery_images')) {
-                // No changes to gallery
-                unset($validated['gallery_images']);
-            }
+            // No changes to gallery
+            unset($validated['gallery_images']);
         }
 
         // Filter empty features
@@ -217,13 +235,15 @@ class ProductController extends Controller
     {
         $this->authorizeProduct($product);
 
-        // Delete images
-        if ($product->main_image) {
-            Storage::disk('public')->delete($product->main_image);
-        }
-        if ($product->gallery_images) {
-            foreach ($product->gallery_images as $image) {
-                Storage::disk('public')->delete($image);
+        // Get gallery images using the safe accessor
+        $galleryImages = $product->gallery_images_array;
+            
+        if (!empty($galleryImages)) {
+            foreach ($galleryImages as $image) {
+                // Only delete if it's a local path (not a URL)
+                if (is_string($image) && !str_starts_with($image, 'http')) {
+                    Storage::disk('public')->delete($image);
+                }
             }
         }
 
