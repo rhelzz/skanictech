@@ -15,6 +15,14 @@
         {{-- Badges Container --}}
         <div class="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
             <div class="flex flex-col gap-2">
+                {{-- Badge Diskon 80% --}}
+                <span class="inline-flex items-center gap-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg shadow-lg">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"/>
+                    </svg>
+                    Diskon 80%
+                </span>
+                
                 @if($product->is_featured || $isFeatured)
                 <span class="inline-flex items-center gap-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-semibold px-2.5 py-1 rounded-lg shadow-lg">
                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -72,9 +80,18 @@
         
         <div class="flex items-end justify-between pt-3 border-t border-slate-100">
             <div>
-                <span class="text-xs text-slate-400 block mb-0.5">Mulai dari</span>
-                <span class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                    Rp {{ number_format($product->price, 0, ',', '.') }}
+                @php
+                    // Hitung harga awal dari harga akhir: Harga Awal = Harga Akhir / (1 - 0.8)
+                    $discountPercentage = 80;
+                    $finalPrice = $product->price;
+                    $originalPrice = $finalPrice / (1 - ($discountPercentage / 100));
+                @endphp
+                <span class="text-xs text-slate-400 block mb-1">Mulai dari</span>
+                <span class="text-sm text-slate-400 line-through block mb-1">
+                    Rp {{ number_format($originalPrice, 0, ',', '.') }}
+                </span>
+                <span class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 block">
+                    Rp {{ number_format($finalPrice, 0, ',', '.') }}
                 </span>
                 <span class="text-xs text-slate-500 block mt-0.5">
                     {{ $product->price_type_label }}

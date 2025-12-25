@@ -37,11 +37,23 @@
                         class="w-full aspect-[4/3] object-cover rounded-xl shadow-lg"
                         id="main-image"
                     >
-                    @if($product->is_featured)
-                    <span class="absolute top-4 left-4 bg-yellow-500 text-white text-sm font-semibold px-3 py-1 rounded-lg">
-                        ⭐ Produk Unggulan
-                    </span>
-                    @endif
+                    <div class="absolute top-4 left-4 flex flex-col gap-2">
+                        {{-- Badge Diskon 80% --}}
+                        <span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-pink-500 text-white text-sm font-bold px-3 py-1.5 rounded-lg shadow-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"/>
+                            </svg>
+                            Diskon 80%
+                        </span>
+                        @if($product->is_featured)
+                        <span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-sm font-semibold px-3 py-1.5 rounded-lg shadow-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            Produk Unggulan
+                        </span>
+                        @endif
+                    </div>
                 </div>
                 
                 @if(count($galleryImages) > 1)
@@ -68,8 +80,28 @@
                 
                 <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{{ $product->name }}</h1>
                 
-                <div class="flex items-baseline gap-3 mb-6">
-                    <span class="text-3xl font-bold text-blue-600">{{ $product->formatted_price }}</span>
+                @php
+                    // Hitung harga awal dari harga akhir: Harga Awal = Harga Akhir / (1 - 0.8)
+                    $discountPercentage = 80;
+                    $finalPrice = $product->price;
+                    $originalPrice = $finalPrice / (1 - ($discountPercentage / 100));
+                @endphp
+                <div class="mb-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-xl text-slate-400 line-through">
+                            Rp {{ number_format($originalPrice, 0, ',', '.') }}
+                        </span>
+                        <span class="inline-flex items-center gap-1 bg-red-100 text-red-600 text-sm font-bold px-2.5 py-1 rounded-lg">
+                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"/>
+                            </svg>
+                            -{{ $discountPercentage }}%
+                        </span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-4xl font-bold text-blue-600">Rp {{ number_format($finalPrice, 0, ',', '.') }}</span>
+                        <span class="text-sm text-slate-500">{{ $product->price_type_label }}</span>
+                    </div>
                 </div>
                 
                 @if($product->short_description)
